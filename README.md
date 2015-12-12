@@ -1,9 +1,9 @@
 # My FreeCodeCamp Solutions
 
-[FreeCodeCamp](https://github.com/danieldrasdo/FreeCodeCamp) is a way for me to log my FCC solutions.
+[FreeCodeCamp](http://www.freecodecamp.com/) teaches you to code and help nonprofits.
 
-1. Please don't just copy my solutions, but you can check them out for reference.
-2. Don't laugh\* at my `code`.
-3. If you find that one of my solutions doesn't work anymore, I'd really appreciate it if you could submit an issue.
+1. If you find that one of my solutions doesn't work anymore, I'd appreciate if you could create a new issue for me.
+2. You can check my solutions out for reference, but please don't just copy them.
+3. Most importantly, don't laugh at my `code`.\*
 
 \* *A slight giggle is fine.*
