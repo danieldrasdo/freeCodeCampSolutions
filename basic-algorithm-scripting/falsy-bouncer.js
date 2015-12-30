@@ -1,6 +1,9 @@
 function bouncer(arr) {
-  // Don't show a false ID to this bouncer.
-  return arr;
+  function remove(x){
+    return Boolean(x);
+  }
+  var filteredArray = arr.filter(remove);
+  return filteredArray;
 }
 
 bouncer([7, "ate", "", false, 9]);
