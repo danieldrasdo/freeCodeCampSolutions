@@ -1,39 +1,40 @@
 function drawer(price, cash, cid) {
 
-  var changeAmount = toDecimals(cash - price,2);
-  var cidAmount = toDecimals(cid[0][1] + cid[1][1] + cid[2][1] + cid[3][1] + cid[4][1] + cid[5][1] + cid[6][1] + cid[7][1],2);
-  var balance = toDecimals(cidAmount - changeAmount,2);
+  var changeAmount = toDecimals(cash - price, 2);
+  var cidAmount = toDecimals(cid[0][1] + cid[1][1] + cid[2][1] + cid[3][1] + cid[4][1] + cid[5][1] + cid[6][1] + cid[7][1], 2);
+  var balance = toDecimals(cidAmount - changeAmount, 2);
+  var divisors = [
+    [0.01, "PENNY"],
+    [0.05, "NICKEL"],
+    [0.1, "DIME"],
+    [0.25, "QUARTER"],
+    [1, "ONE"],
+    [5, "FIVE"],
+    [10, "TEN"],
+    [20, "TWENTY"],
+    [100, "ONE HUNDRED"]
+  ];
   var changeArray = [];
 
-  function toDecimals(number,places) {
-    return Number(number).toFixed(places);
-  }
+  function toDecimals(number,places) { return Number(number).toFixed(places); }
 
-  function findBillsAndCoins(divisor, indices, denomination) {
-    if (changeAmount - divisor > 0) {
-      var denominationNeeded = Math.floor(changeAmount / divisor);
+  function findBillsAndCoins(indices) {
+    cid[indices].push(toDecimals(cid[indices][1] / divisors[indices][0], 0));
+
+    if (changeAmount - divisors[indices][0] > 0) {
+      var denominationNeeded = Math.floor(changeAmount / divisors[indices][0]);
       if (cid[indices][2] > 0) {
         if (cid[indices][2] >= denominationNeeded) {
-          changeArray.push([denomination, denominationNeeded * divisor]);
-          changeAmount -= (denominationNeeded * divisor);
+          changeArray.push([divisors[indices][1], denominationNeeded * divisors[indices][0]]);
+          changeAmount -= (denominationNeeded * divisors[indices][0]);
         } else {
-          changeArray.push([denomination, cid[indices][2] * divisor]);
-          changeAmount -= (cid[indices][2] * divisor);
+          changeArray.push([divisors[indices][1], cid[indices][2] * divisors[indices][0]]);
+          changeAmount -= (cid[indices][2] * divisors[indices][0]);
         }
       }
     }
     changeAmount = toDecimals(changeAmount, 2);
   }
-
-  cid[0].push(toDecimals(cid[0][1] / 0.01, 0));
-  cid[1].push(toDecimals(cid[1][1] / 0.05,0));
-  cid[2].push(toDecimals(cid[2][1] / 0.1,0));
-  cid[3].push(toDecimals(cid[3][1] / 0.25,0));
-  cid[4].push(toDecimals(cid[4][1] / 1,0));
-  cid[5].push(toDecimals(cid[5][1] / 5,0));
-  cid[6].push(toDecimals(cid[6][1] / 10,0));
-  cid[7].push(toDecimals(cid[7][1] / 20,0));
-  cid[8].push(toDecimals(cid[8][1] / 100,0));
 
   if (balance < 0) {
     return "Insufficient Funds";
@@ -41,20 +42,16 @@ function drawer(price, cash, cid) {
     return "Closed";
   } else {
 
-    findBillsAndCoins(100, 8, "ONE HUNDRED");
-    findBillsAndCoins(20, 7, "TWENTY");
-    findBillsAndCoins(10, 6, "TEN");
-    findBillsAndCoins(5, 5, "FIVE");
-    findBillsAndCoins(1, 4, "ONE");
-    findBillsAndCoins(0.25, 3, "QUARTER");
-    findBillsAndCoins(0.1, 2, "DIME");
-    findBillsAndCoins(0.05, 1, "NICKEL");
-    findBillsAndCoins(0.01, 0, "PENNY");
+    for (var i = 8; i >= 0; i--) {
+      findBillsAndCoins(i);
+    }
 
     if (changeAmount > 0) {
       return "Insufficient Funds";
     }
   }
+
+  // Here is your change, ma'am.
   return changeArray;
 }
 
