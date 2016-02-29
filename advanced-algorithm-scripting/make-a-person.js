@@ -1,6 +1,6 @@
 var Person = function(firstAndLast) {
-  var first = first || firstAndLast.split(' ')[0],
-      last = last || firstAndLast.split(' ')[1];
+  var first = firstAndLast.split(' ')[0],
+      last = firstAndLast.split(' ')[1];
 
   this.getFirstName = function() {return first;};
   this.getLastName = function() {return last;};
