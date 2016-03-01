@@ -1,4 +1,4 @@
-function replace(str, before, after) {
+function myReplace(str, before, after) {
   str = str.split(' ');
   for (var i = 0; i < str.length; i++) {
     if (str[i] == before) {
@@ -15,4 +15,4 @@ function replace(str, before, after) {
   return str.join(' ');
 }
 
-replace("A quick brown fox jumped over the lazy dog", "jumped", "leaped");
+myReplace("A quick brown fox jumped over the lazy dog", "jumped", "leaped");
