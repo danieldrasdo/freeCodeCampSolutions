@@ -1,9 +1,10 @@
 function truncate(str, num) {
-  if (str.length >= num+3) {
-    var x = str.slice(0,num);
-    var result = x.slice(0,-3);
-    result += '...';
-    return result;
+  var slicedStr = str.slice(0, num);
+
+  if (num <= 3) {
+    return slicedStr + '...';
+  } else if (str.length >= num+3) {
+    return slicedStr.slice(0, -3) + '...';
   } else {
     return str;
   }
