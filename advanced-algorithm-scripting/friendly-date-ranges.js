@@ -1,15 +1,4 @@
 function friendly(str) {
-  var splitDates = [str[0].split('-') , str[1].split('-')];
-  var startDateTimestamp = dateToTimestamp(str[0]);
-  var endDateTimestamp = dateToTimestamp(str[1]);
-  var startMonth = monthToString(trimZeros(splitDates[0][1])) + " ";
-  var startDay = dayToString(trimZeros(splitDates[0][2]));
-  var startYear = ', '+splitDates[0][0];
-  var endMonth = monthToString(trimZeros(splitDates[1][1])) + " ";
-  var endDay = dayToString(trimZeros(splitDates[1][2]));
-  var endYear = ', '+splitDates[1][0];
-  var currentYear = new Date().getFullYear();
-  var resultingArray = [];
 
   function monthToString(value) {
     value = value.toString();
@@ -62,25 +51,42 @@ function friendly(str) {
     return result;
   }
 
+  var splitDates = [str[0].split('-') , str[1].split('-')];
+  var startDateTimestamp = dateToTimestamp(str[0]);
+  var endDateTimestamp = dateToTimestamp(str[1]);
+  var startMonth = monthToString(trimZeros(splitDates[0][1])) + " ";
+  var startDay = dayToString(trimZeros(splitDates[0][2]));
+  var startYear = ', '+splitDates[0][0];
+  var endMonth = monthToString(trimZeros(splitDates[1][1])) + " ";
+  var endDay = dayToString(trimZeros(splitDates[1][2]));
+  var endYear = ', '+splitDates[1][0];
+  var currentYear = new Date().getFullYear();
+  var resultingArray = [];
+
   //logic
   if (startDateTimestamp == endDateTimestamp) {
     resultingArray = [startMonth+startDay+endYear];
   } else if (startYear == endYear && startMonth != endMonth) {
-    resultingArray = [startMonth+startDay, endMonth+endDay];
+    resultingArray = [startMonth+startDay+startYear, endMonth+endDay];
   } else if (startYear == endYear && startMonth == endMonth) {
     resultingArray = [startMonth+startDay, endDay];
   } else if (splitDates[0][0] == currentYear && Math.abs(startDateTimestamp - endDateTimestamp) < (86400*365) ) {
     resultingArray = [startMonth+startDay, endMonth+endDay];
   } else {
-    resultingArray =  [startMonth+startDay+startYear,endMonth+endDay+endYear];
+    if (Math.abs(startDateTimestamp - endDateTimestamp) < (86400*365)) {
+      resultingArray =  [startMonth+startDay+startYear,endMonth+endDay];
+    } else {
+      resultingArray =  [startMonth+startDay+startYear,endMonth+endDay+endYear];
+    }
   }
 
+  console.log(resultingArray);
   return resultingArray;
 }
 
 //friendly(['2016-07-01', '2016-07-04']);//["July 1st","4th"]
 //friendly(['2016-12-01', '2017-02-03']);//["December 1st","February 3rd"]
 //friendly(['2016-12-01', '2018-02-03']);//["December 1st, 2016","February 3rd, 2018"]
-friendly(['2017-03-01', '2017-05-05']);//["March 1st","May 5th"]
+//friendly(['2017-03-01', '2017-05-05']);//["March 1st","May 5th"]
 //friendly(['2018-01-01', '2018-01-01']);//["January 1st, 2018"]
-//friendly(['2022-09-05', '2023-09-04']);//["September 5th, 2022","September 4th, 2023"]
+friendly(['2022-09-05', '2023-09-04']);//["September 5th, 2022","September 4th, 2023"]
